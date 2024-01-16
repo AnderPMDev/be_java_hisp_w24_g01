@@ -1,9 +1,14 @@
 package com.socialmeli.SocialMeli.service;
 
+
 import com.socialmeli.SocialMeli.dto.UserFollowersCountDTO;
 
-public interface IUserService {
-    UserFollowersCountDTO getFollowersCount(Integer userId);
+import com.socialmeli.SocialMeli.dto.UserFollowerDTO;
 
-    Boolean unfollow(Integer userId, Integer userIdToUnfollow);
+import java.util.Optional;
+
+public interface IUserService {
+  UserFollowersCountDTO getFollowersCount(Integer userId);
+  Boolean unfollow(Integer userId, Integer userIdToUnfollow);
+  UserFollowerDTO follow(Integer idFollower, Integer idFollowed);
 }
