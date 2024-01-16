@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -24,7 +25,8 @@ public class UserRepository implements IUserRepository {
     }
     @Override
     public User create(User user) {
-        return null;
+        listUsers.add(user);
+        return user;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public Optional<User> findById(Integer id) {
-        return Optional.empty();
+        return this.listUsers.stream().filter(user -> Objects.equals(user.getId(), id)).findFirst();
     }
 
     @Override

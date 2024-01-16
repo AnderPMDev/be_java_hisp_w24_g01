@@ -2,6 +2,7 @@ package com.socialmeli.SocialMeli.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.socialmeli.SocialMeli.dto.ProductPostRequestDTO;
 import com.socialmeli.SocialMeli.entity.Post;
 import com.socialmeli.SocialMeli.entity.Product;
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,8 @@ public class ProductRepository implements IProductRepository {
     }
     @Override
     public Product create(Product product) {
-        return null;
+        this.listProducts.add(product);
+        return product;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public Optional<Product> findById(Integer id) {
-        return Optional.empty();
+        return this.listProducts.stream().filter(product -> product.getId() == id).findFirst();
     }
 
     @Override
@@ -56,4 +58,19 @@ public class ProductRepository implements IProductRepository {
         products= objectMapper.readValue(file,new TypeReference<List<Product>>(){});
         listProducts= products;
     }
+
+    @Override
+    public Product findByIdOrCreate(ProductPostRequestDTO productDTO) {
+        return this.findById(productDTO.product_id()).orElseGet(() -> this.create(
+                new Product(
+                        productDTO.product_id(),
+                        productDTO.product_name(),
+                        productDTO.type(),
+                        productDTO.brand(),
+                        productDTO.color(),
+                        productDTO.notes()
+                )
+        ));
+    }
+
 }

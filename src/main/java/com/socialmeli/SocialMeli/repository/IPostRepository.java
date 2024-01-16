@@ -1,5 +1,8 @@
 package com.socialmeli.SocialMeli.repository;
 
-public interface IPostRepository extends ICrudRepository{
+import com.socialmeli.SocialMeli.entity.Post;
 
+public interface IPostRepository extends ICrudRepository<Post>{
+
+    int findLastId();
 }

@@ -26,27 +26,33 @@ public class PostRepository implements IPostRepository{
     }
 
     @Override
-    public Object create(Object o) {
+    public int findLastId() {
+        return this.listPosts.stream().mapToInt(Post::getId).max().orElse(0);
+    }
+
+    @Override
+    public Post create(Post post) {
+        this.listPosts.add(post);
+        return post;
+    }
+
+    @Override
+    public Boolean remove(Post post) {
         return null;
     }
 
     @Override
-    public Boolean remove(Object o) {
-        return null;
-    }
-
-    @Override
-    public Optional update(Object o) {
+    public Optional<Post> update(Post post) {
         return Optional.empty();
     }
 
     @Override
-    public Optional findById(Integer id) {
+    public Optional<Post> findById(Integer id) {
         return Optional.empty();
     }
 
     @Override
-    public List getAll() {
+    public List<Post> getAll() {
         return null;
     }
 

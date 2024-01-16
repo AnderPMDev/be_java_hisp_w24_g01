@@ -2,8 +2,11 @@ package com.socialmeli.SocialMeli.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.socialmeli.SocialMeli.dto.CategoryPostRequestDTO;
+import com.socialmeli.SocialMeli.dto.ProductPostRequestDTO;
 import com.socialmeli.SocialMeli.entity.Category;
 import com.socialmeli.SocialMeli.entity.Post;
+import com.socialmeli.SocialMeli.entity.Product;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
@@ -24,11 +27,20 @@ public class CategoryRepository implements  ICategoryRepository{
     }
 
 
-
+    @Override
+    public Category findByIdOrCreate(CategoryPostRequestDTO categoryDTO) {
+        return this.findById(categoryDTO.category_id()).orElseGet(() -> this.create(
+                new Category(
+                        categoryDTO.category_id(),
+                        categoryDTO.category_name()
+                )
+        ));
+    }
 
     @Override
     public Category create(Category category) {
-        return null;
+        this.listCategories.add(category);
+        return category;
     }
 
     @Override
@@ -43,7 +55,7 @@ public class CategoryRepository implements  ICategoryRepository{
 
     @Override
     public Optional<Category> findById(Integer id) {
-        return Optional.empty();
+        return this.listCategories.stream().filter(c -> c.getId() == id).findFirst();
     }
 
     @Override
