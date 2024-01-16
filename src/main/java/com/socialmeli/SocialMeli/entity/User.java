@@ -1,5 +1,7 @@
 package com.socialmeli.SocialMeli.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.ArrayList;
