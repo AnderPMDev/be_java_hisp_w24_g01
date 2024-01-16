@@ -2,8 +2,8 @@ package com.socialmeli.SocialMeli.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.socialmeli.SocialMeli.entity.Product;
 import com.socialmeli.SocialMeli.entity.User;
+import com.socialmeli.SocialMeli.exception.BadRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
@@ -21,7 +21,6 @@ public class UserRepository implements IUserRepository {
 
     public UserRepository() throws IOException {
         loadDataBase();
-
     }
     @Override
     public User create(User user) {
@@ -40,12 +39,36 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public Optional<User> findById(Integer id) {
-        return Optional.empty();
+        //Find a user given its ID
+        //If the user is not found, return an empty optional
+        return listUsers.stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
     @Override
     public List<User> getAll() {
         return null;
+    }
+
+    @Override
+    public User getFollowedUsers(Integer userId, Integer idToFollow) {
+
+        //find the users
+        User follower = listUsers.stream().filter(user -> user.getId().equals(userId)).findFirst().orElse(null);
+        User userToFollow = listUsers.stream().filter(user -> user.getId().equals(idToFollow)).findFirst().orElse(null);
+
+        if(follower==null || userToFollow==null){throw new BadRequest("No existen algun(os) usuario");}
+
+        //validate that the user is not already following
+        boolean alreadyFollowing = follower.getFollowed().stream().anyMatch(u -> u.getId().equals(idToFollow));
+
+        if(!alreadyFollowing){
+            follower.getFollowed().add(userToFollow);
+            userToFollow.getFollowers().add(follower);
+            return follower;
+        }else{
+            throw new BadRequest("Ya seguis a este usuario");
+        }
+
     }
 
     private void loadDataBase() throws IOException {
