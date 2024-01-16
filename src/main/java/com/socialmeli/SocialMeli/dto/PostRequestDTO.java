@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public record PostRequestDTO(
         int user_id,
-        @JsonFormat(pattern = "dd-MM-yyyy")
+        @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate date,
         ProductPostRequestDTO product,
         CategoryPostRequestDTO category,

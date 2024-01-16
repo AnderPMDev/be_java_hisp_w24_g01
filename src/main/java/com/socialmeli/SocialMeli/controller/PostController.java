@@ -4,14 +4,14 @@ import com.socialmeli.SocialMeli.dto.PostRequestDTO;
 import com.socialmeli.SocialMeli.dto.PostResponseDTO;
 import com.socialmeli.SocialMeli.exception.BadRequestException;
 import com.socialmeli.SocialMeli.service.IPostService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
 public class PostController {
 
     private final IPostService postService;

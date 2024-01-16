@@ -3,7 +3,6 @@ package com.socialmeli.SocialMeli.repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.socialmeli.SocialMeli.dto.ProductPostRequestDTO;
-import com.socialmeli.SocialMeli.entity.Post;
 import com.socialmeli.SocialMeli.entity.Product;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
