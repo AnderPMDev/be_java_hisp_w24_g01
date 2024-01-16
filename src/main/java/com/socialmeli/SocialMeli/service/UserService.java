@@ -9,13 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.socialmeli.SocialMeli.dto.UserDTO;
 import com.socialmeli.SocialMeli.dto.UserFollowerDTO;
-import com.socialmeli.SocialMeli.entity.User;
-import com.socialmeli.SocialMeli.exception.BadRequest;
-import com.socialmeli.SocialMeli.repository.IUserRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements IUserService{

@@ -1,7 +1,7 @@
 package com.socialmeli.SocialMeli.controller;
 
 import com.socialmeli.SocialMeli.service.IUserService;
-import com.socialmeli.SocialMeli.service.UserServiceImpl;
+import com.socialmeli.SocialMeli.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class UserController {
 
 
     IUserService userService;
-    public UserController(UserServiceImpl userService){
+    public UserController(UserService userService){
         this.userService = userService;
     }
 
