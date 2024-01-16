@@ -8,8 +8,7 @@ import java.util.List;
 public record UserFollowerDTO(
        Integer id,
        String name,
-       @JsonManagedReference
-       List<User> followed
+       List<UserDTO> followed
 
 ) {}
 

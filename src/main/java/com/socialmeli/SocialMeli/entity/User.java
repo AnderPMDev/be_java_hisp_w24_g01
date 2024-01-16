@@ -17,7 +17,6 @@ public class User {
     private Integer id;
     private String name;
     private List<User> followers = new ArrayList<>();
-    @JsonBackReference
     private List<User> followed = new ArrayList<>();
 
 }
