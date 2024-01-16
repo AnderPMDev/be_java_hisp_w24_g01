@@ -39,7 +39,7 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public Optional<User> findById(Integer id) {
-        return Optional.empty();
+        return this.listUsers.stream().filter(u -> u.getId() == id).findFirst();
     }
 
     @Override
@@ -54,5 +54,10 @@ public class UserRepository implements IUserRepository {
         file= ResourceUtils.getFile("classpath:json/users.json");
         users= objectMapper.readValue(file,new TypeReference<List<User>>(){});
         listUsers= users;
+    }
+
+    @Override
+    public boolean userExists(int id) {
+        return listUsers.stream().anyMatch(u -> u.getId() == id);
     }
 }
