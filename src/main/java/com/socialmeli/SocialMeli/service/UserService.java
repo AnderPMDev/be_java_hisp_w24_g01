@@ -1,16 +1,18 @@
 package com.socialmeli.SocialMeli.service;
 
-import com.socialmeli.SocialMeli.dto.UserFollowersCountDTO;
+import com.socialmeli.SocialMeli.dto.*;
 import com.socialmeli.SocialMeli.entity.User;
+import com.socialmeli.SocialMeli.exception.NotFoundException;
 import com.socialmeli.SocialMeli.exception.UserNotFollowedException;
 import com.socialmeli.SocialMeli.exception.UserNotFoundException;
 import com.socialmeli.SocialMeli.repository.IUserRepository;
 import org.springframework.stereotype.Service;
 
-import com.socialmeli.SocialMeli.dto.UserDTO;
-import com.socialmeli.SocialMeli.dto.UserFollowerDTO;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService{
@@ -78,5 +80,37 @@ public class UserService implements IUserService{
         var user = userRepository.getFollowedUsers(idFollower, idFollowed);
         List<UserDTO> followedbyuser = user.getFollowed().stream().map(u -> new UserDTO(u.getId(),u.getName())).toList();
         return new UserFollowerDTO(user.getId(), user.getName(),followedbyuser);
+    }
+
+    @Override
+    public UserFollowersDTO getUserWithFollowers(Integer id, String order) {
+        User followers = userRepository.getFollowers(id);
+        if (followers == null)
+            throw new NotFoundException("No se encontró el usuario");
+
+        List<User> followersByOrder;
+
+        if ("name_asc".equals(order) || "name_desc".equals(order)) {
+            boolean descendingOrder = "name_desc".equals(order);
+
+            followersByOrder = followers.getFollowers().stream()
+                    .sorted(Comparator.comparing(User::getName)
+                            .thenComparing(User::getId))
+                    .collect(Collectors.toList());
+
+            if (descendingOrder) {
+                Collections.reverse(followersByOrder);
+            }
+        } else {
+            throw new NotFoundException("El parámetro 'order' es incorrecto");
+        }
+
+        return new UserFollowersDTO(followers.getId(), followers.getName(), transformFollowers(followersByOrder));
+    }
+
+    private List<FollowerDTO> transformFollowers(List<User> followers) {
+        List<FollowerDTO> followersDTO = new ArrayList<>();
+        followers.forEach(follower -> followersDTO.add(new FollowerDTO(follower.getId(), follower.getName())));
+        return followersDTO;
     }
 }
