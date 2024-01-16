@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -54,5 +55,13 @@ public class UserRepository implements IUserRepository {
         file= ResourceUtils.getFile("classpath:json/users.json");
         users= objectMapper.readValue(file,new TypeReference<List<User>>(){});
         listUsers= users;
+    }
+
+    @Override
+    public User getFollowers(Integer id) {
+        User listUsersById = listUsers.stream()
+                                .filter(user -> user.getId().equals(id))
+                                .findFirst().get();
+        return listUsersById;
     }
 }
