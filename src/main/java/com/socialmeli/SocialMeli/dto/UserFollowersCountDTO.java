@@ -3,6 +3,6 @@ package com.socialmeli.SocialMeli.dto;
 public record UserFollowersCountDTO(
       Integer user_id,
       String user_name,
-      Integer followersCount
-        ){
+      Integer followers_count
+){
 }

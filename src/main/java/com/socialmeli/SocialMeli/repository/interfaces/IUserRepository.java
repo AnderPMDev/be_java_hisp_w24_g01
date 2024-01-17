@@ -1,6 +1,5 @@
-package com.socialmeli.SocialMeli.repository;
+package com.socialmeli.SocialMeli.repository.interfaces;
 
-import com.socialmeli.SocialMeli.dto.UserDTO;
 import com.socialmeli.SocialMeli.entity.User;
 
 

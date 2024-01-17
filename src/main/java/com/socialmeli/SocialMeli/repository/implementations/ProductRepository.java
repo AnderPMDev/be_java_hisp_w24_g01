@@ -1,22 +1,19 @@
-package com.socialmeli.SocialMeli.repository;
+package com.socialmeli.SocialMeli.repository.implementations;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.socialmeli.SocialMeli.dto.ProductPostRequestDTO;
 import com.socialmeli.SocialMeli.entity.Product;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.socialmeli.SocialMeli.repository.interfaces.IProductRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-@Data
-@AllArgsConstructor
 @Repository
 public class ProductRepository implements IProductRepository {
 
@@ -29,7 +26,8 @@ public class ProductRepository implements IProductRepository {
     }
     @Override
     public Product create(Product product) {
-        return null;
+        this.listProducts.add(product);
+        return product;
     }
 
     @Override
@@ -54,20 +52,6 @@ public class ProductRepository implements IProductRepository {
         return null;
     }
 
-
-    @Override
-    public Product findByIdOrCreate(Product product) {
-        return this.findById(product.getId()).orElseGet(() -> this.create(
-                new Product(
-                        product.getId(),
-                        product.getProductName(),
-                        product.getType(),
-                        product.getBrand(),
-                        product.getColor(),
-                        product.getNotes()
-                )
-        ));
-    }
     private void loadDataBase() throws IOException {
         File file;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -76,4 +60,19 @@ public class ProductRepository implements IProductRepository {
         products= objectMapper.readValue(file,new TypeReference<List<Product>>(){});
         listProducts= products;
     }
+
+    @Override
+    public Product findByIdOrCreate(ProductPostRequestDTO productDTO) {
+        return this.findById(productDTO.product_id()).orElseGet(() -> this.create(
+                new Product(
+                        productDTO.product_id(),
+                        productDTO.product_name(),
+                        productDTO.type(),
+                        productDTO.brand(),
+                        productDTO.color(),
+                        productDTO.notes()
+                )
+        ));
+    }
+
 }

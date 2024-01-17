@@ -1,9 +1,9 @@
 package com.socialmeli.SocialMeli.exception;
 
 import com.socialmeli.SocialMeli.dto.ExceptionDTO;
-import com.socialmeli.SocialMeli.dto.UserNotFoundExceptionDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -25,19 +25,28 @@ public class ExceptionController {
     @ExceptionHandler(EmptyParameterException.class)
     public ResponseEntity<?> emptyParameter(EmptyParameterException e){
         ExceptionDTO exceptionDto = new ExceptionDTO(e.getMessage());
-        return new ResponseEntity<>(exceptionDto, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserNotFollowedException.class)
     public ResponseEntity<?> notFound(UserNotFollowedException e) {
-        UserNotFoundExceptionDTO exceptionDto = new UserNotFoundExceptionDTO(e.getMessage());
-        return new ResponseEntity<>(exceptionDto, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(BadRequest.class)
-    public ResponseEntity<?> BadRequest(BadRequest e) {
         ExceptionDTO exceptionDto = new ExceptionDTO(e.getMessage());
         return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    public ResponseEntity<?> badRequestHttp(HttpMessageNotReadableException e){
+        ExceptionDTO exceptionDTO = new ExceptionDTO("Bad request. Please provide a valid request body.");
+        return new ResponseEntity<>(exceptionDTO, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    public ResponseEntity<?> badRequest(BadRequestException e){
+        ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage());
+        return new ResponseEntity<>(exceptionDTO, HttpStatus.BAD_REQUEST);
+    }
 
+    @ExceptionHandler
+    public ResponseEntity<?> emptyList(EmptyListException e){
+        ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage());
+        return new ResponseEntity<>(exceptionDTO, HttpStatus.NOT_FOUND);
     }
 }

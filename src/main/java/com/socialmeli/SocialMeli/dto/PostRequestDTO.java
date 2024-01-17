@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-public record PostWithIdDTO(
+public record PostRequestDTO(
         Integer user_id,
-        Integer post_id,
         @JsonFormat(pattern = "dd-MM-yyyy")
         LocalDate date,
         ProductPostRequestDTO product,

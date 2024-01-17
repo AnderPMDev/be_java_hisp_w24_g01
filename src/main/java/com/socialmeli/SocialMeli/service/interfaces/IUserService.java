@@ -1,21 +1,17 @@
-package com.socialmeli.SocialMeli.service;
+package com.socialmeli.SocialMeli.service.interfaces;
 
 
-import com.socialmeli.SocialMeli.dto.UserDTO;
+import com.socialmeli.SocialMeli.dto.UserFollowedDTO;
 import com.socialmeli.SocialMeli.dto.UserFollowersCountDTO;
 import com.socialmeli.SocialMeli.dto.UserFollowerDTO;
-import com.socialmeli.SocialMeli.dto.UserFollowersDTO;
-import com.socialmeli.SocialMeli.dto.UserFollowedListDTO;
-
-import java.util.Optional;
 
 public interface IUserService {
   UserFollowersCountDTO getFollowersCount(Integer userId);
   Boolean unfollow(Integer userId, Integer userIdToUnfollow);
   UserFollowerDTO follow(Integer idFollower, Integer idFollowed);
 
-  UserFollowersDTO getUserWithFollowers(Integer id, String order);
+  UserFollowerDTO getUserWithFollowers(Integer id, String order);
 
   boolean userExists(int id);
-  UserFollowedListDTO getFollowed(int userId, String order);
+  UserFollowedDTO getFollowed(int userId, String order);
 }

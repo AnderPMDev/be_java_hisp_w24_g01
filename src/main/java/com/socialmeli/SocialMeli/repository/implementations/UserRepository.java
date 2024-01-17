@@ -1,30 +1,19 @@
-package com.socialmeli.SocialMeli.repository;
-
+package com.socialmeli.SocialMeli.repository.implementations;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.socialmeli.SocialMeli.entity.Post;
-import com.socialmeli.SocialMeli.entity.Product;
 import com.socialmeli.SocialMeli.entity.User;
-import com.socialmeli.SocialMeli.exception.UserNotFoundException;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import com.socialmeli.SocialMeli.exception.BadRequest;
+import com.socialmeli.SocialMeli.exception.BadRequestException;
+import com.socialmeli.SocialMeli.repository.interfaces.IUserRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-
-@Data
-@AllArgsConstructor
 @Repository
 public class UserRepository implements IUserRepository {
 
@@ -35,7 +24,8 @@ public class UserRepository implements IUserRepository {
     }
     @Override
     public User create(User user) {
-        return null;
+        listUsers.add(user);
+        return user;
     }
 
     @Override
@@ -65,11 +55,14 @@ public class UserRepository implements IUserRepository {
     @Override
     public User getFollowedUsers(Integer userId, Integer idToFollow) {
 
+        if(userId.equals(idToFollow)){
+            throw new BadRequestException("You can't follow yourself");
+        }
         //find the users
         User follower = listUsers.stream().filter(user -> user.getId().equals(userId)).findFirst().orElse(null);
         User userToFollow = listUsers.stream().filter(user -> user.getId().equals(idToFollow)).findFirst().orElse(null);
 
-        if(follower==null || userToFollow==null){throw new BadRequest("No existen algun(os) usuario");}
+        if(follower==null || userToFollow==null){throw new BadRequestException("User not found");}
 
         //validate that the user is not already following
         boolean alreadyFollowing = follower.getFollowed().stream().anyMatch(u -> u.getId().equals(idToFollow));
@@ -79,7 +72,7 @@ public class UserRepository implements IUserRepository {
             userToFollow.getFollowers().add(follower);
             return follower;
         }else{
-            throw new BadRequest("Ya seguis a este usuario");
+            throw new BadRequestException("You already follow this user");
         }
 
     }

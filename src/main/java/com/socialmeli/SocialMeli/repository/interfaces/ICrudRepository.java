@@ -1,4 +1,4 @@
-package com.socialmeli.SocialMeli.repository;
+package com.socialmeli.SocialMeli.repository.interfaces;
 
 import java.util.List;
 import java.util.Optional;
