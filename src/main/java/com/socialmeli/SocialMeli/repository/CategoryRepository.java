@@ -23,9 +23,6 @@ public class CategoryRepository implements  ICategoryRepository{
         loadDataBase();
     }
 
-
-
-
     @Override
     public Category create(Category category) {
         return null;

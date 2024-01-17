@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
 public class Post {
     private Integer id;
     private Integer userId;

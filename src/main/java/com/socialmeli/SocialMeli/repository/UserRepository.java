@@ -10,6 +10,7 @@ import com.socialmeli.SocialMeli.entity.User;
 import com.socialmeli.SocialMeli.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import com.socialmeli.SocialMeli.exception.BadRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -30,7 +32,6 @@ public class UserRepository implements IUserRepository {
 
     public UserRepository() throws IOException {
         loadDataBase();
-
     }
     @Override
     public User create(User user) {
@@ -49,12 +50,38 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public Optional<User> findById(Integer id) {
+
+        //Find a user given its ID
+        //If the user is not found, return an empty optional
+
         return listUsers.stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
     @Override
     public List<User> getAll() {
         return null;
+    }
+
+    @Override
+    public User getFollowedUsers(Integer userId, Integer idToFollow) {
+
+        //find the users
+        User follower = listUsers.stream().filter(user -> user.getId().equals(userId)).findFirst().orElse(null);
+        User userToFollow = listUsers.stream().filter(user -> user.getId().equals(idToFollow)).findFirst().orElse(null);
+
+        if(follower==null || userToFollow==null){throw new BadRequest("No existen algun(os) usuario");}
+
+        //validate that the user is not already following
+        boolean alreadyFollowing = follower.getFollowed().stream().anyMatch(u -> u.getId().equals(idToFollow));
+
+        if(!alreadyFollowing){
+            follower.getFollowed().add(userToFollow);
+            userToFollow.getFollowers().add(follower);
+            return follower;
+        }else{
+            throw new BadRequest("Ya seguis a este usuario");
+        }
+
     }
 
     private void loadDataBase() throws IOException {
@@ -68,5 +95,18 @@ public class UserRepository implements IUserRepository {
         file= ResourceUtils.getFile("classpath:json/users.json");
         users= objectMapper.readValue(file,new TypeReference<List<User>>(){});
         listUsers= users;
+    }
+
+    @Override
+    public User getFollowers(Integer id) {
+        User listUsersById = listUsers.stream()
+                                .filter(user -> user.getId().equals(id))
+                                .findFirst().get();
+        return listUsersById;
+    }
+
+    @Override
+    public boolean userExists(int id) {
+        return listUsers.stream().anyMatch(u -> u.getId() == id);
     }
 }
