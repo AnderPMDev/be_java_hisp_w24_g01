@@ -35,7 +35,7 @@ public class LastestPostService implements ILastestPostService{
 
         LastestPostDTO lastestPostDTO = new LastestPostDTO();
         //Se trae al usuario y lo mandamos al repositorio
-        var user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        var user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("El usuario " + userId + " no existe"));
         var usersFollowed = user.getFollowed();
         if (usersFollowed.isEmpty()) {//Si no sigue a nadie, lanzamos una excepción
             throw new EmptyListException("No te encuentras siguiendo a ningún usuario");

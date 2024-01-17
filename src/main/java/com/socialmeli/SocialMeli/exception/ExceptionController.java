@@ -12,10 +12,10 @@ public class ExceptionController {
     //Aca los exception handlers @ExceptionHandler
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> notFound(UserNotFoundException e){
+    public ResponseEntity<?> notFound(UserNotFoundException e) {
         ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage());
         return new ResponseEntity<>(exceptionDTO, HttpStatus.NOT_FOUND);
-
+    }
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handleNotFoundException(NotFoundException e){
         ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage());

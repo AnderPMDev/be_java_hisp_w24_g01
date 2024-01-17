@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/users")
 public class SocialMeliController {
 
     @Autowired
