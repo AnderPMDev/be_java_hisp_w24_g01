@@ -87,4 +87,9 @@ public class UserRepository implements IUserRepository {
                                 .findFirst().get();
         return listUsersById;
     }
+
+    @Override
+    public boolean userExists(int id) {
+        return listUsers.stream().anyMatch(u -> u.getId() == id);
+    }
 }
