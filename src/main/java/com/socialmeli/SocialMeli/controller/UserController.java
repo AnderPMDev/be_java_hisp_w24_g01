@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<UserFollowerDTO> getFollowersOfUser(@PathVariable Integer userId,
                                                               @RequestParam(required = false, defaultValue = "name_asc") String order) {
         if(userId == null)
-            throw new IllegalArgumentException("El id del usuario es incorrecto");
+            throw new IllegalArgumentException("User Id is invalid");
         return ResponseEntity.ok(userService.getUserWithFollowers(userId, order));
     }
 
