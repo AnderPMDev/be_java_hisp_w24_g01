@@ -40,12 +40,21 @@ public class CategoryRepository implements  ICategoryRepository{
 
     @Override
     public Optional<Category> findById(Integer id) {
-        return Optional.empty();
+        return listCategories.stream().filter(category -> category.getId().equals(id)).findFirst();
     }
 
     @Override
     public List<Category> getAll() {
         return null;
+    }
+
+    public Category findByIdOrCreate(Category category) {
+        return this.findById(category.getId()).orElseGet(() -> this.create(
+                new Category(
+                        category.getId(),
+                        category.getName()
+                )
+        ));
     }
 
     private void loadDataBase() throws IOException {

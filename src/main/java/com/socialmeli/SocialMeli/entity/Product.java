@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class Product {
-    private int id;
+    private Integer id;
     private String productName;
     private String type;
     private String brand;

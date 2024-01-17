@@ -19,6 +19,7 @@ public class User {
     private String name;
     private List<User> followers = new ArrayList<>();
     private List<User> followed = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
     //Added to check if a user is already following another user
     @Override

@@ -10,9 +10,12 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class PostRepository implements IPostRepository{
@@ -48,6 +51,16 @@ public class PostRepository implements IPostRepository{
     @Override
     public List getAll() {
         return null;
+    }
+
+    public List<Post> getAllPostsById(Integer userId) {
+        var latestPost = this.listPosts.stream()
+                .filter(e-> e.getUserId().equals(userId)
+                        && ((e.getDate()).isAfter(LocalDate.now().minusWeeks(2))
+                        || (e.getDate()).isEqual(LocalDate.now()))
+                ).collect(Collectors.toList());
+
+        return (List<Post>) latestPost;
     }
 
     private void loadDataBase() throws IOException {

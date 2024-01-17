@@ -11,12 +11,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class Post {
-    private int id;
-    private int userId;
+    private Integer id;
+    private Integer userId;
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate date;
     private Product product;
     private Category category;
-    private double price;
+    private Double price;
 }
 
