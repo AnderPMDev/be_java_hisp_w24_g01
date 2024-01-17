@@ -9,6 +9,6 @@ import lombok.*;
 @ToString
 public class Category {
 
-    private int id;
+    private Integer id;
     private String name;
 }

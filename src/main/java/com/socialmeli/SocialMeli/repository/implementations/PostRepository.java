@@ -1,21 +1,24 @@
-package com.socialmeli.SocialMeli.repository;
+package com.socialmeli.SocialMeli.repository.implementations;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.socialmeli.SocialMeli.entity.Post;
+import com.socialmeli.SocialMeli.repository.interfaces.IPostRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
-public class PostRepository implements IPostRepository{
+public class PostRepository implements IPostRepository {
 
 
     private List<Post> listPosts = new ArrayList<>();
@@ -26,28 +29,44 @@ public class PostRepository implements IPostRepository{
     }
 
     @Override
-    public Object create(Object o) {
+    public int findLastId() {
+        return this.listPosts.stream().mapToInt(Post::getId).max().orElse(0);
+    }
+
+    @Override
+    public Post create(Post post) {
+        this.listPosts.add(post);
+        return post;
+    }
+
+    @Override
+    public Boolean remove(Post post) {
         return null;
     }
 
     @Override
-    public Boolean remove(Object o) {
-        return null;
-    }
-
-    @Override
-    public Optional update(Object o) {
+    public Optional<Post> update(Post post) {
         return Optional.empty();
     }
 
     @Override
-    public Optional findById(Integer id) {
+    public Optional<Post> findById(Integer id) {
         return Optional.empty();
     }
 
     @Override
-    public List getAll() {
+    public List<Post> getAll() {
         return null;
+    }
+
+    public List<Post> getAllPostsById(Integer userId) {
+        var latestPost = this.listPosts.stream()
+                .filter(e-> e.getUserId().equals(userId)
+                        && ((e.getDate()).isAfter(LocalDate.now().minusWeeks(2))
+                        || (e.getDate()).isEqual(LocalDate.now()))
+                ).collect(Collectors.toList());
+
+        return (List<Post>) latestPost;
     }
 
     private void loadDataBase() throws IOException {

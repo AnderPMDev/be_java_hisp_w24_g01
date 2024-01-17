@@ -2,7 +2,7 @@
   {
     "id": 301,
     "userId": 101,
-    "date": "2024-01-20",
+    "date": "20-01-2024",
     "product": {
       "id": 201,
       "productName": "Smartphone",
@@ -20,7 +20,7 @@
   {
     "id": 302,
     "userId": 102,
-    "date": "2024-01-21",
+    "date": "21-01-2024",
     "product": {
       "id": 202,
       "productName": "Running Shoes",
@@ -38,7 +38,7 @@
   {
     "id": 303,
     "userId": 103,
-    "date": "2024-01-22",
+    "date": "22-01-2024",
     "product": {
       "id": 203,
       "productName": "Coffee Maker",
@@ -56,7 +56,7 @@
   {
     "id": 304,
     "userId": 104,
-    "date": "2024-01-23",
+    "date": "23-01-2024",
     "product": {
       "id": 204,
       "productName": "Wireless Earbuds",
@@ -74,7 +74,7 @@
   {
     "id": 305,
     "userId": 105,
-    "date": "2024-01-24",
+    "date": "24-01-2024",
     "product": {
       "id": 205,
       "productName": "Backpack",
@@ -92,7 +92,7 @@
   {
     "id": 306,
     "userId": 106,
-    "date": "2024-01-25",
+    "date": "25-01-2024",
     "product": {
       "id": 206,
       "productName": "Gaming Console",
@@ -110,7 +110,7 @@
   {
     "id": 307,
     "userId": 107,
-    "date": "2024-01-26",
+    "date": "26-01-2024",
     "product": {
       "id": 207,
       "productName": "Digital Camera",
@@ -128,7 +128,7 @@
   {
     "id": 308,
     "userId": 108,
-    "date": "2024-01-27",
+    "date": "27-01-2024",
     "product": {
       "id": 208,
       "productName": "Smart Watch",
@@ -146,7 +146,7 @@
   {
     "id": 309,
     "userId": 109,
-    "date": "2024-01-28",
+    "date": "28-01-2024",
     "product": {
       "id": 209,
       "productName": "Blender",
@@ -164,7 +164,7 @@
   {
     "id": 310,
     "userId": 110,
-    "date": "2024-01-29",
+    "date": "29-01-2024",
     "product": {
       "id": 210,
       "productName": "Desk Chair",
