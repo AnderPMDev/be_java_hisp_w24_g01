@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.socialmeli.SocialMeli.entity.User;
 import com.socialmeli.SocialMeli.exception.BadRequestException;
+import com.socialmeli.SocialMeli.exception.UserNotFoundException;
 import com.socialmeli.SocialMeli.repository.interfaces.IUserRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
@@ -94,7 +95,9 @@ public class UserRepository implements IUserRepository {
     public User getFollowers(Integer id) {
         User listUsersById = listUsers.stream()
                                 .filter(user -> user.getId().equals(id))
-                                .findFirst().get();
+                                .findFirst().orElseThrow(
+                        () -> new UserNotFoundException("User not found")
+                );
         return listUsersById;
     }
 
