@@ -2,7 +2,7 @@ package com.socialmeli.SocialMeli.repository.implementations;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.socialmeli.SocialMeli.dto.CategoryPostRequestDTO;
+import com.socialmeli.SocialMeli.dto.requestDTO.CategoryPostRequestDTO;
 import com.socialmeli.SocialMeli.entity.Category;
 import com.socialmeli.SocialMeli.repository.interfaces.ICategoryRepository;
 import org.springframework.stereotype.Repository;

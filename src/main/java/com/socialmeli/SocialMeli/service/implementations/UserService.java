@@ -1,6 +1,9 @@
 package com.socialmeli.SocialMeli.service.implementations;
 
-import com.socialmeli.SocialMeli.dto.*;
+import com.socialmeli.SocialMeli.dto.responseDTO.FollowerDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowedDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowerDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowersCountDTO;
 import com.socialmeli.SocialMeli.entity.User;
 import com.socialmeli.SocialMeli.exception.BadRequestException;
 import com.socialmeli.SocialMeli.exception.UserNotFollowedException;

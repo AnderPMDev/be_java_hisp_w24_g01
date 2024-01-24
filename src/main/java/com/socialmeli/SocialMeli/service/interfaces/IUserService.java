@@ -1,9 +1,9 @@
 package com.socialmeli.SocialMeli.service.interfaces;
 
 
-import com.socialmeli.SocialMeli.dto.UserFollowedDTO;
-import com.socialmeli.SocialMeli.dto.UserFollowersCountDTO;
-import com.socialmeli.SocialMeli.dto.UserFollowerDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowedDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowersCountDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowerDTO;
 
 public interface IUserService {
   UserFollowersCountDTO getFollowersCount(Integer userId);
