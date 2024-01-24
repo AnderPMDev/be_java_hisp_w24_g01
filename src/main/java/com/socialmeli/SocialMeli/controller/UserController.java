@@ -4,10 +4,8 @@ import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowedDTO;
 import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowerDTO;
 import com.socialmeli.SocialMeli.service.interfaces.IUserService;
 import com.socialmeli.SocialMeli.service.implementations.UserService;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +26,7 @@ public class UserController {
     ///GET users/{userId}/followers/count
     @GetMapping("/{userId}/followers/count")
     public ResponseEntity<?> getFollowersCount(@PathVariable
+                                                   @Digits(integer = 10, fraction = 0, message = "Debe ser un número entero")
                                                    @NotNull(message = "User id must not be empty")
                                                    @Min(value = 1, message = "User id must be greater than 0")  Integer userId){
         return new ResponseEntity<>(userService.getFollowersCount(userId), HttpStatus.OK);
