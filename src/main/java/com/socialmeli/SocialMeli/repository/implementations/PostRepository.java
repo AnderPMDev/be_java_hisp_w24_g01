@@ -60,13 +60,12 @@ public class PostRepository implements IPostRepository {
     }
 
     public List<Post> getAllPostsById(Integer userId) {
-        var latestPost = this.listPosts.stream()
+
+        return this.listPosts.stream()
                 .filter(e-> e.getUserId().equals(userId)
                         && ((e.getDate()).isAfter(LocalDate.now().minusWeeks(2))
                         || (e.getDate()).isEqual(LocalDate.now()))
                 ).collect(Collectors.toList());
-
-        return (List<Post>) latestPost;
     }
 
     private void loadDataBase() throws IOException {

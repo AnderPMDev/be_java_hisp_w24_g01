@@ -49,4 +49,10 @@ public class ExceptionController {
         ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage());
         return new ResponseEntity<>(exceptionDTO, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<?> illegalArgumentException(IllegalArgumentException e){
+        ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage());
+        return new ResponseEntity<>(exceptionDTO, HttpStatus.BAD_REQUEST);
+    }
 }

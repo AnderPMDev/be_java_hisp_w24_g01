@@ -2,6 +2,7 @@ package com.socialmeli.SocialMeli.controller;
 
 import com.socialmeli.SocialMeli.dto.UserFollowedDTO;
 import com.socialmeli.SocialMeli.dto.UserFollowerDTO;
+import com.socialmeli.SocialMeli.entity.Post;
 import com.socialmeli.SocialMeli.service.interfaces.IUserService;
 import com.socialmeli.SocialMeli.service.implementations.UserService;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,11 @@ public class UserController {
     //Bodyless POST
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollow(@PathVariable Integer userId, @PathVariable Integer userIdToUnfollow){
-        return new ResponseEntity<>(userService.unfollow(userId, userIdToUnfollow), HttpStatus.OK);
+        if(userService.unfollow(userId, userIdToUnfollow)){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/{userId}/followers/list")

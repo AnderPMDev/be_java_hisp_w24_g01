@@ -8,4 +8,11 @@ public record ProductPostRequestDTO(
         String color,
         String notes
 ) {
+    public Integer product_id(){
+        if (product_id != null) {
+            return product_id;
+        } else {
+            throw new IllegalArgumentException("Product id cannot be null");
+        }
+    }
 }
