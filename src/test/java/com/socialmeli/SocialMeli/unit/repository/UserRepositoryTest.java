@@ -22,7 +22,6 @@ public class UserRepositoryTest {
     public UserRepositoryTest() throws IOException {
     }
 
-
     @Test
     @DisplayName("T-001 Not Found user to follow test")
     public void followUserBadTest() {
@@ -37,9 +36,6 @@ public class UserRepositoryTest {
                     () -> userRepository.getFollowedUsers(userId, idToFollow),"The follow correctly");
 
     }
-
-
-
 
 
 }
