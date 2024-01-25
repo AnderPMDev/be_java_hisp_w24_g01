@@ -96,8 +96,6 @@ public class UserService implements IUserService {
     @Override
     public UserFollowerDTO getUserWithFollowers(Integer id, String order) {
         User followers = userRepository.getFollowers(id);
-        if (followers == null)
-            throw new NotFoundException("User not found");
 
         List<User> followersByOrder;
 
