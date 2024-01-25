@@ -78,9 +78,19 @@ public class UserService implements IUserService {
 
     @Override
     public UserFollowerDTO follow(Integer idFollower, Integer idFollowed) {
+
+        if(idFollower.equals(idFollowed)){throw new BadRequestException("You can't follow yourself");}
+
         var user = userRepository.getFollowedUsers(idFollower, idFollowed);
-        List<FollowerDTO> followedbyuser = user.getFollowed().stream().map(u -> new FollowerDTO(u.getId(),u.getName())).toList();
-        return new UserFollowerDTO(user.getId(), user.getName(),followedbyuser);
+
+        if (user.isEmpty()) {
+            throw new BadRequestException("You already follow this user");
+        }else {
+            User us =  user.get();
+            List<FollowerDTO> followedbyuser = us.getFollowed().stream().map(u -> new FollowerDTO(u.getId(),u.getName())).toList();
+            return new UserFollowerDTO(us.getId(), us.getName(),followedbyuser);
+        }
+
     }
 
     @Override

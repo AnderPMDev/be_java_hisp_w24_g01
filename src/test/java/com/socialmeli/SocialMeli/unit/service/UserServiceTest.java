@@ -2,6 +2,9 @@ package com.socialmeli.SocialMeli.unit.service;
 
 import com.socialmeli.SocialMeli.dto.responseDTO.FollowerDTO;
 import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowerDTO;
+
+import org.assertj.core.api.Assert;
+import org.springframework.boot.test.context.SpringBootTest;
 import com.socialmeli.SocialMeli.entity.Post;
 import com.socialmeli.SocialMeli.entity.User;
 import com.socialmeli.SocialMeli.exception.BadRequestException;
@@ -16,18 +19,24 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class UserServiceTest {
+
+  
 
     @Mock
     private IUserRepository userRepository;
+
     @InjectMocks
     private UserService userService;
-
+  
+  
     private final List<User> FOLLOWERS = new ArrayList<>();
     private final List<User> FOLLOWED = new ArrayList<>();
     private final List<Post> POSTS = new ArrayList<>();
@@ -49,7 +58,63 @@ public class UserServiceTest {
 
     private final User USER1 = new User(101, "Alice Johnson" ,FOLLOWERS, FOLLOWED, POSTS);
     private boolean isValidateExceptionTest = false;
+  
 
+    @Test
+    @DisplayName("T-001 Follow user service test")
+    public void followUserGoodTest() {
+        // Arrange
+        Integer userId = 101;
+        Integer userIdToFollow = 102;
+
+        //construct the user to return
+        UserFollowerDTO userFollowerDTO = new UserFollowerDTO(userId, "Alice Johnson", List.of(new FollowerDTO(userIdToFollow, "Bob Smith")));
+
+        //construct the user received from the repository
+        List<User> usersFollowed = List.of(new User(102, "Bob Smith", new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        User user = new User(101, "Alice Johnson", new ArrayList<>(), usersFollowed, new ArrayList<>());
+
+        // Act
+        Mockito.when(userRepository.getFollowedUsers(userId, userIdToFollow)).thenReturn(Optional.of(user));
+        var expected = userService.follow(userId, userIdToFollow);
+
+        // Assert
+        Assertions.assertEquals(expected, userFollowerDTO);
+
+    }
+
+
+    @Test
+    @DisplayName("T-001 Follow self user test")
+    public void followUserBadTest() {
+        // Arrange
+        Integer userId = 101;
+        Integer userIdToFollow = 101;
+
+        // Act Assert
+        Assertions.assertThrows(
+                BadRequestException.class,
+                () -> userService.follow(userId, userIdToFollow), "The user was not followed correctly");
+
+    }
+
+    @Test
+    @DisplayName("T-001 Follow user  already follow  test")
+    public void followUserBadTest2() {
+        // Arrange
+        Integer userId = 101;
+        Integer userIdToFollow = 102;
+
+
+        Mockito.when(userRepository.getFollowedUsers(userId, userIdToFollow)).thenReturn(Optional.empty());
+        // Act Assert
+        Assertions.assertThrows(
+                BadRequestException.class,
+                () -> userService.follow(userId, userIdToFollow), "The user was not followed correctly");
+    }
+
+
+   
     private void validateAlphabeticalOrderTest(int userId, String order, boolean isAscendingOrder) {
 
         //arrange
@@ -113,4 +178,6 @@ public class UserServiceTest {
         validateAlphabeticalOrderTest(101, "name_desc", false);
     }
 
+
 }
+

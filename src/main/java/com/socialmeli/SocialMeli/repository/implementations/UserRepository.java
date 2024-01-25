@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.socialmeli.SocialMeli.entity.User;
-import com.socialmeli.SocialMeli.exception.BadRequestException;
 import com.socialmeli.SocialMeli.exception.UserNotFoundException;
 import com.socialmeli.SocialMeli.repository.interfaces.IUserRepository;
 import org.springframework.stereotype.Repository;
@@ -54,27 +53,18 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public User getFollowedUsers(Integer userId, Integer idToFollow) {
+    public Optional<User> getFollowedUsers(Integer userId, Integer idToFollow) {
 
-        if(userId.equals(idToFollow)){
-            throw new BadRequestException("You can't follow yourself");
-        }
         //find the users
-        User follower = listUsers.stream().filter(user -> user.getId().equals(userId)).findFirst().orElse(null);
-        User userToFollow = listUsers.stream().filter(user -> user.getId().equals(idToFollow)).findFirst().orElse(null);
-
-        if(follower==null || userToFollow==null){throw new BadRequestException("User not found");}
-
+        User follower = listUsers.stream().filter(user -> user.getId().equals(userId)).findFirst().orElseThrow(() -> new UserNotFoundException("Follower not found"));
+        User userToFollow = listUsers.stream().filter(user -> user.getId().equals(idToFollow)).findFirst().orElseThrow(() -> new UserNotFoundException("Follower not found"));
         //validate that the user is not already following
         boolean alreadyFollowing = follower.getFollowed().stream().anyMatch(u -> u.getId().equals(idToFollow));
-
         if(!alreadyFollowing){
             follower.getFollowed().add(userToFollow);
             userToFollow.getFollowers().add(follower);
-            return follower;
-        }else{
-            throw new BadRequestException("You already follow this user");
-        }
+            return Optional.of(follower);
+        }else{return Optional.empty();}
 
     }
 
