@@ -39,13 +39,13 @@ public class UserService implements IUserService {
     public UserFollowersCountDTO getFollowersCount(Integer userId) {
         //Get the ammount of users that follow a certain vendor
         int followersCount = 0;
-
         //Get the list of followers of the user and count it
-        User userfound = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User userFound = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         //Size instead of count, size gives integer as a response.
-        followersCount = userfound.getFollowers().size();
+        followersCount = userFound.getFollowers().size();
         //Return the DTO
-        return new UserFollowersCountDTO(userId, userfound.getName(), followersCount);
+        return new UserFollowersCountDTO(userId, userFound.getName(), followersCount);
     }
 
     @Override
@@ -143,6 +143,7 @@ public class UserService implements IUserService {
         f.forEach(followed -> UserDTO.add(new FollowerDTO(followed.getId(), followed.getName())));
         return UserDTO;
     }
+
     private User getUserByID(int userId) {
         Optional<User> user = userRepository.findById(userId);
         return user.orElseThrow(() -> new UserNotFoundException("User id:  " + userId + " not found"));
