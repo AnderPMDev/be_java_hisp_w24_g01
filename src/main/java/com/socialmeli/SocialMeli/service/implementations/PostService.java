@@ -1,6 +1,11 @@
 package com.socialmeli.SocialMeli.service.implementations;
 
-import com.socialmeli.SocialMeli.dto.*;
+import com.socialmeli.SocialMeli.dto.requestDTO.CategoryPostRequestDTO;
+import com.socialmeli.SocialMeli.dto.requestDTO.PostRequestDTO;
+import com.socialmeli.SocialMeli.dto.requestDTO.ProductPostRequestDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.LastestPostDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.PostResponseDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.PostWithIdDTO;
 import com.socialmeli.SocialMeli.entity.Category;
 import com.socialmeli.SocialMeli.entity.Post;
 import com.socialmeli.SocialMeli.entity.Product;

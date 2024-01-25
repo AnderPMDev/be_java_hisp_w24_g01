@@ -1,4 +1,4 @@
-package com.socialmeli.SocialMeli.dto;
+package com.socialmeli.SocialMeli.dto.responseDTO;
 
 public record UserFollowersCountDTO(
       Integer user_id,
