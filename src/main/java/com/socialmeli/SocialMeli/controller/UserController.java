@@ -26,7 +26,6 @@ public class UserController {
     ///GET users/{userId}/followers/count
     @GetMapping("/{userId}/followers/count")
     public ResponseEntity<?> getFollowersCount(@PathVariable
-                                                   @Digits(integer = 10, fraction = 0, message = "Debe ser un número entero")
                                                    @NotNull(message = "User id must not be empty")
                                                    @Min(value = 1, message = "User id must be greater than 0")  Integer userId){
         return new ResponseEntity<>(userService.getFollowersCount(userId), HttpStatus.OK);
@@ -54,12 +53,8 @@ public class UserController {
     public ResponseEntity<UserFollowerDTO> getFollowersOfUser(@PathVariable
                                                                   @NotNull(message = "User id must not be empty")
                                                                   @Min(value = 1, message = "User id must be greater than 0")Integer userId,
-
                                                               @RequestParam(required = false, defaultValue = "name_asc")
-
                                                               String order) {
-        if(userId == null)
-            throw new IllegalArgumentException("User Id is invalid");
         return ResponseEntity.ok(userService.getUserWithFollowers(userId, order));
     }
 
@@ -67,7 +62,6 @@ public class UserController {
     public ResponseEntity<UserFollowerDTO> followUser(@PathVariable
                                                           @NotNull(message = "User id must not be empty")
                                                           @Min(value = 1, message = "User id must be greater than 0")Integer  userId,
-                                                      @Positive(message = "User id must be greater than 0")
                                                       @PathVariable
                                                       @NotNull(message = "User id must not be empty")
                                                       @Min(value = 1, message = "User id must be greater than 0")Integer userIdToFollow) {

@@ -13,6 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class User {
 
     private Integer id;
@@ -20,17 +21,6 @@ public class User {
     private List<User> followers = new ArrayList<>();
     private List<User> followed = new ArrayList<>();
     private List<Post> posts = new ArrayList<>();
-
-    public User(Integer id, String name, List<User> followed) {
-        this.id = id;
-        this.name = name;
-        this.followed = followed;
-    }
-
-    public User(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     //Added to check if a user is already following another user
     @Override

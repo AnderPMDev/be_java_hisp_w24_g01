@@ -2,7 +2,6 @@ package com.socialmeli.SocialMeli.unit.service;
 
 import com.socialmeli.SocialMeli.dto.requestDTO.CategoryPostRequestDTO;
 import com.socialmeli.SocialMeli.dto.requestDTO.ProductPostRequestDTO;
-import com.socialmeli.SocialMeli.dto.responseDTO.ExceptionDTO;
 import com.socialmeli.SocialMeli.dto.responseDTO.LastestPostDTO;
 import com.socialmeli.SocialMeli.dto.responseDTO.PostWithIdDTO;
 import com.socialmeli.SocialMeli.entity.Category;
@@ -17,10 +16,10 @@ import com.socialmeli.SocialMeli.repository.interfaces.IUserRepository;
 import com.socialmeli.SocialMeli.service.implementations.PostService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,8 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 public class PostServiceTest {
 
     @Mock
@@ -69,7 +67,7 @@ public class PostServiceTest {
     private final PostWithIdDTO postWithIdDTOId304 = new PostWithIdDTO(
             104,
             304,
-            LocalDate.of(2024,1,23),
+            LocalDate.now().minusDays(12),
             productPostRequestDTOId204,
             categoryPostRequestDTOId3,
             149.99
@@ -77,7 +75,7 @@ public class PostServiceTest {
     private final PostWithIdDTO postWithIdDTOId305 = new PostWithIdDTO(
             105,
             305,
-            LocalDate.of(2024,1,24),
+            LocalDate.now().minusDays(5),
             productPostRequestDTOId205,
             categoryPostRequestDTOId3,
             89.99
@@ -97,7 +95,7 @@ public class PostServiceTest {
     private final Post postId304 = new Post(
             304,
             104,
-            LocalDate.of(2024,1,23),
+            LocalDate.now().minusDays(12),
             productId204,
             categoryId3,
             149.99
@@ -114,11 +112,18 @@ public class PostServiceTest {
     private final Post postId305 = new Post(
             305,
             105,
-            LocalDate.of(2024,1,24),
+            LocalDate.now().minusDays(5),
             productId205,
             categoryId3,
             89.99
     );
+
+    private final User userId101 = User.builder().id(101).name("Alice Johnson").followed(
+            List.of(
+                    User.builder().id(104).name("David Williams").build(),
+                    User.builder().id(105).name("Eva Martinez").build()
+            )
+    ).build();
     @Test
     @DisplayName("T-0005 - Order not found")
     void orderNotFoundTest(){
@@ -140,17 +145,8 @@ public class PostServiceTest {
         );
         List<Post> postListUser104 = List.of(postId304);
         List<Post> postListUser105 = List.of(postId305);
-        User user = new User(
-                101,
-                "Alice Johnson",
-                List.of(
-                        new User(104, "David Williams"),
-                        new User(105, "Eva Martinez")
-                )
-        );
-
         //Act
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userId101));
         when(postRepository.getAllPostsById(104)).thenReturn(postListUser104);
         when(postRepository.getAllPostsById(105)).thenReturn(postListUser105);
         when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(productId204);
@@ -173,17 +169,8 @@ public class PostServiceTest {
         );
         List<Post> postListUser104 = List.of(postId304);
         List<Post> postListUser105 = List.of(postId305);
-        User user = new User(
-                101,
-                "Alice Johnson",
-                List.of(
-                        new User(104, "David Williams"),
-                        new User(105, "Eva Martinez")
-                )
-        );
-
         //Act
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userId101));
         when(postRepository.getAllPostsById(104)).thenReturn(postListUser104);
         when(postRepository.getAllPostsById(105)).thenReturn(postListUser105);
         when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(productId204);
@@ -205,17 +192,8 @@ public class PostServiceTest {
         );
         List<Post> postListUser104 = List.of(postId304);
         List<Post> postListUser105 = List.of(postId305);
-        User user = new User(
-                101,
-                "Alice Johnson",
-                List.of(
-                        new User(104, "David Williams"),
-                        new User(105, "Eva Martinez")
-                )
-        );
-
         //Act
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userId101));
         when(postRepository.getAllPostsById(104)).thenReturn(postListUser104);
         when(postRepository.getAllPostsById(105)).thenReturn(postListUser105);
         when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(productId204);

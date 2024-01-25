@@ -6,7 +6,6 @@ import com.socialmeli.SocialMeli.dto.responseDTO.PostResponseDTO;
 import com.socialmeli.SocialMeli.service.interfaces.IPostService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
