@@ -1,6 +1,5 @@
 package com.socialmeli.SocialMeli.dto.responseDTO;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.socialmeli.SocialMeli.dto.requestDTO.CategoryPostRequestDTO;
 import com.socialmeli.SocialMeli.dto.requestDTO.ProductPostRequestDTO;
 

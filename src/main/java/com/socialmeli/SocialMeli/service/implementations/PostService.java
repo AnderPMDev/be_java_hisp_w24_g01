@@ -80,10 +80,11 @@ public class PostService implements IPostService {
         );
     }
     @Override
-    public LastestPostDTO getLastestPost(Integer userId, String order) {
-
+    public LastestPostDTO getLastestPost(Integer userId, String orderRequest) {
+        String order = checkOrder(orderRequest);
         //Se trae al usuario y lo mandamos al repositorio
-        var user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("The user id: " + userId + " not found"));
+        var user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("The user id: " + userId + " not found"));
         var usersFollowed = user.getFollowed();
         if (usersFollowed.isEmpty()) {//Si no sigue a nadie, lanzamos una excepción
             throw new EmptyListException("You are not following any user");
