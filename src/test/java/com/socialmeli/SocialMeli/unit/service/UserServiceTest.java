@@ -7,15 +7,15 @@ import com.socialmeli.SocialMeli.service.implementations.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Optional;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @Mock
     private IUserRepository userRepository;
@@ -56,15 +56,12 @@ public class UserServiceTest {
     @DisplayName("When unfollowing a non-existing user, then handle gracefully")
     public void unfollowNonExistingUser() {
         // Arrange
-        int userId = 101;
-        int nonExistentUserId = 999;
+        int userId = 101; // Existing user ID
+        int nonExistentUserId = 999; // Non-existing user ID
 
         // Create a user object to simulate an existing user in the system.
         User user = new User(101, "Alice Johnson", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-
-        // Mock the userRepository's response to return the user when the existing ID is searched and an empty result for the non-existing ID.
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        Mockito.when(userRepository.findById(nonExistentUserId)).thenReturn(Optional.empty());
 
         // Act & Assert
         // Assert that a UserNotFoundException is thrown when trying to unfollow a non-existing user.
@@ -74,4 +71,5 @@ public class UserServiceTest {
                 "Unfollowing a non-existing user should throw UserNotFoundException"
         );
     }
+
 }
