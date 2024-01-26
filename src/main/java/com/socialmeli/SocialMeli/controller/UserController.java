@@ -4,10 +4,8 @@ import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowedDTO;
 import com.socialmeli.SocialMeli.dto.responseDTO.UserFollowerDTO;
 import com.socialmeli.SocialMeli.service.interfaces.IUserService;
 import com.socialmeli.SocialMeli.service.implementations.UserService;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -55,12 +53,8 @@ public class UserController {
     public ResponseEntity<UserFollowerDTO> getFollowersOfUser(@PathVariable
                                                                   @NotNull(message = "User id must not be empty")
                                                                   @Min(value = 1, message = "User id must be greater than 0")Integer userId,
-
                                                               @RequestParam(required = false, defaultValue = "name_asc")
-
                                                               String order) {
-        if(userId == null)
-            throw new IllegalArgumentException("User Id is invalid");
         return ResponseEntity.ok(userService.getUserWithFollowers(userId, order));
     }
 
@@ -68,7 +62,6 @@ public class UserController {
     public ResponseEntity<UserFollowerDTO> followUser(@PathVariable
                                                           @NotNull(message = "User id must not be empty")
                                                           @Min(value = 1, message = "User id must be greater than 0")Integer  userId,
-                                                      @Positive(message = "User id must be greater than 0")
                                                       @PathVariable
                                                       @NotNull(message = "User id must not be empty")
                                                       @Min(value = 1, message = "User id must be greater than 0")Integer userIdToFollow) {

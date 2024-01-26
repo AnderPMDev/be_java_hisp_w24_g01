@@ -6,7 +6,6 @@ import com.socialmeli.SocialMeli.dto.responseDTO.PostResponseDTO;
 import com.socialmeli.SocialMeli.service.interfaces.IPostService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +30,6 @@ public class PostController {
                                                            @NotNull(message = "User id must not be empty")
                                                            @Min(value = 1, message = "User id must be greater than 0")Integer userId,
                                                        @RequestParam(required = false,defaultValue = "date_desc") String order){
-        order = this.postService.checkOrder(order);
         LastestPostDTO post = postService.getLastestPost(userId,order);
         return ResponseEntity.ok().body(post);
     }

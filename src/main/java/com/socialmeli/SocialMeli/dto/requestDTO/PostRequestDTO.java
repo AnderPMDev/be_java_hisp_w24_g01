@@ -23,7 +23,7 @@ public record PostRequestDTO(
         @Valid
         CategoryPostRequestDTO category,
 
-        @NotNull(message = "The field price cannot be empty")
+        @NotNull(message = "The price field cannot be empty")
         @Max(value = 10000000, message = "The maximum price per product is 10,000,000")
         Double price
 ) {

@@ -13,6 +13,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import jakarta.validation.ConstraintViolation;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -78,9 +79,12 @@ public class ExceptionController {
         );
     }
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ExceptionDTO> validationException(MethodArgumentTypeMismatchException e){
+    public ResponseEntity<ExceptionDTO> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
         return ResponseEntity.badRequest().body(
-                new ExceptionDTO(e.getMessage()
+                new ExceptionDTO(
+                        "Error converting parameter '" + ex.getName() + "' with value '" +
+                                ex.getValue() + "'. Expected a value of type " +
+                                ex.getRequiredType().getSimpleName() + "."
                 )
         );
     }

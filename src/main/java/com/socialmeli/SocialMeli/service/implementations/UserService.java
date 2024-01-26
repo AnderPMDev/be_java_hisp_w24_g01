@@ -39,13 +39,13 @@ public class UserService implements IUserService {
     public UserFollowersCountDTO getFollowersCount(Integer userId) {
         //Get the ammount of users that follow a certain vendor
         int followersCount = 0;
-
         //Get the list of followers of the user and count it
-        User userfound = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User userFound = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         //Size instead of count, size gives integer as a response.
-        followersCount = userfound.getFollowers().size();
+        followersCount = userFound.getFollowers().size();
         //Return the DTO
-        return new UserFollowersCountDTO(userId, userfound.getName(), followersCount);
+        return new UserFollowersCountDTO(userId, userFound.getName(), followersCount);
     }
 
     @Override
@@ -78,16 +78,24 @@ public class UserService implements IUserService {
 
     @Override
     public UserFollowerDTO follow(Integer idFollower, Integer idFollowed) {
+
+        if(idFollower.equals(idFollowed)){throw new BadRequestException("You can't follow yourself");}
+
         var user = userRepository.getFollowedUsers(idFollower, idFollowed);
-        List<FollowerDTO> followedbyuser = user.getFollowed().stream().map(u -> new FollowerDTO(u.getId(),u.getName())).toList();
-        return new UserFollowerDTO(user.getId(), user.getName(),followedbyuser);
+
+        if (user.isEmpty()) {
+            throw new BadRequestException("You already follow this user");
+        }else {
+            User us =  user.get();
+            List<FollowerDTO> followedbyuser = us.getFollowed().stream().map(u -> new FollowerDTO(u.getId(),u.getName())).toList();
+            return new UserFollowerDTO(us.getId(), us.getName(),followedbyuser);
+        }
+
     }
 
     @Override
     public UserFollowerDTO getUserWithFollowers(Integer id, String order) {
         User followers = userRepository.getFollowers(id);
-        if (followers == null)
-            throw new NotFoundException("User not found");
 
         List<User> followersByOrder;
 
@@ -143,6 +151,7 @@ public class UserService implements IUserService {
         f.forEach(followed -> UserDTO.add(new FollowerDTO(followed.getId(), followed.getName())));
         return UserDTO;
     }
+
     private User getUserByID(int userId) {
         Optional<User> user = userRepository.findById(userId);
         return user.orElseThrow(() -> new UserNotFoundException("User id:  " + userId + " not found"));

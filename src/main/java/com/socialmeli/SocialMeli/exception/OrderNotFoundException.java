@@ -6,6 +6,6 @@ public class OrderNotFoundException extends RuntimeException{
     }
 
     public OrderNotFoundException(String order) {
-        super("Orden invalido: " + order);
+        super("Sorting parameter " + order + " does not exist");
     }
 }
