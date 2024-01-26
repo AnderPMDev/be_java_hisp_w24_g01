@@ -19,6 +19,10 @@ import com.socialmeli.SocialMeli.repository.implementations.CategoryRepository;
 import com.socialmeli.SocialMeli.repository.implementations.PostRepository;
 import com.socialmeli.SocialMeli.repository.implementations.ProductRepository;
 import com.socialmeli.SocialMeli.repository.implementations.UserRepository;
+import com.socialmeli.SocialMeli.utils.CategoryConstants;
+import com.socialmeli.SocialMeli.utils.PostConstants;
+import com.socialmeli.SocialMeli.utils.ProductConstants;
+import com.socialmeli.SocialMeli.utils.UserConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,7 +60,7 @@ public class PostServiceTest {
           List.of(new PostWithIdDTO(
                   104,
                   301,
-                  LocalDate.of(2024, 1,20),
+                  LocalDate.now().minusDays(6),
                   new ProductPostRequestDTO(
                           201,
                           "Smartphone",
@@ -73,24 +77,6 @@ public class PostServiceTest {
           ))
     );
 
-    private static Post post1 = new Post(
-            301,
-            104,
-            LocalDate.of(2024, 1,20),
-            new Product(
-                    201,
-                    "Smartphone",
-                    "Electronics",
-                    "Samsung",
-                    "Black",
-                    "6.5-inch display, 128GB storage"
-            ),
-            new Category(
-                    1,
-                    "Electronics"
-            ),
-            799.99
-    );
   
     private final ProductPostRequestDTO productPostRequestDTOId204 = new ProductPostRequestDTO(
             204,
@@ -128,50 +114,7 @@ public class PostServiceTest {
             categoryPostRequestDTOId3,
             89.99
     );
-    private final Product productId204 = new Product(
-            204,
-            "Wireless Earbuds",
-            "Electronics",
-            "Apple",
-            "White",
-            "Active noise cancellation, sweat-resistant"
-    );
-    private final Category categoryId3 = new Category(
-            3,
-            "Appliances"
-    );
-    private final Post postId304 = new Post(
-            304,
-            104,
-            LocalDate.now().minusDays(12),
-            productId204,
-            categoryId3,
-            149.99
-    );
 
-    private final Product productId205 = new Product(
-            205,
-            "Backpack",
-            "Outdoor",
-            "Patagonia",
-            "Green",
-            "Durable and water-resistant"
-    );
-    private final Post postId305 = new Post(
-            305,
-            105,
-            LocalDate.now().minusDays(5),
-            productId205,
-            categoryId3,
-            89.99
-    );
-
-    private final User userId101 = User.builder().id(101).name("Alice Johnson").followed(
-            List.of(
-                    User.builder().id(104).name("David Williams").build(),
-                    User.builder().id(105).name("Eva Martinez").build()
-            )
-    ).build();
   
     @Test
     @DisplayName("T-0005 - Order not found")
@@ -192,15 +135,15 @@ public class PostServiceTest {
                 101,
                 List.of(postWithIdDTOId305, postWithIdDTOId304)
         );
-        List<Post> postListUser104 = List.of(postId304);
-        List<Post> postListUser105 = List.of(postId305);
+        List<Post> postListUser104 = List.of(PostConstants.POST304);
+        List<Post> postListUser105 = List.of(PostConstants.POST305);
         //Act
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userId101));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(UserConstants.USER1));
         when(postRepository.getAllPostsById(104)).thenReturn(postListUser104);
         when(postRepository.getAllPostsById(105)).thenReturn(postListUser105);
-        when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(productId204);
-        when(productRepository.findByIdOrCreate(productPostRequestDTOId205)).thenReturn(productId205);
-        when(categoryRepository.findByIdOrCreate(categoryPostRequestDTOId3)).thenReturn(categoryId3);
+        when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(ProductConstants.PRODUCT204);
+        when(productRepository.findByIdOrCreate(productPostRequestDTOId205)).thenReturn(ProductConstants.PRODUCT205);
+        when(categoryRepository.findByIdOrCreate(categoryPostRequestDTOId3)).thenReturn(CategoryConstants.CATEGORY3);
         LastestPostDTO lastestPostDTO = postService.getLastestPost(userId, order);
         //Assert
         assertEquals(expectedDTO, lastestPostDTO, "The latest posts should be ordered by date desc");
@@ -216,15 +159,15 @@ public class PostServiceTest {
                 101,
                 List.of(postWithIdDTOId304, postWithIdDTOId305)
         );
-        List<Post> postListUser104 = List.of(postId304);
-        List<Post> postListUser105 = List.of(postId305);
+        List<Post> postListUser104 = List.of(PostConstants.POST304);
+        List<Post> postListUser105 = List.of(PostConstants.POST305);
         //Act
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userId101));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(UserConstants.USER1));
         when(postRepository.getAllPostsById(104)).thenReturn(postListUser104);
         when(postRepository.getAllPostsById(105)).thenReturn(postListUser105);
-        when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(productId204);
-        when(productRepository.findByIdOrCreate(productPostRequestDTOId205)).thenReturn(productId205);
-        when(categoryRepository.findByIdOrCreate(categoryPostRequestDTOId3)).thenReturn(categoryId3);
+        when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(ProductConstants.PRODUCT204);
+        when(productRepository.findByIdOrCreate(productPostRequestDTOId205)).thenReturn(ProductConstants.PRODUCT205);
+        when(categoryRepository.findByIdOrCreate(categoryPostRequestDTOId3)).thenReturn(CategoryConstants.CATEGORY3);
         LastestPostDTO lastestPostDTO = postService.getLastestPost(userId, order);
         //Assert
         assertEquals(expectedDTO, lastestPostDTO, "The latest posts should be ordered by date asc");
@@ -239,15 +182,15 @@ public class PostServiceTest {
                 101,
                 List.of(postWithIdDTOId305, postWithIdDTOId304)
         );
-        List<Post> postListUser104 = List.of(postId304);
-        List<Post> postListUser105 = List.of(postId305);
+        List<Post> postListUser104 = List.of(PostConstants.POST304);
+        List<Post> postListUser105 = List.of(PostConstants.POST305);
         //Act
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userId101));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(UserConstants.USER1));
         when(postRepository.getAllPostsById(104)).thenReturn(postListUser104);
         when(postRepository.getAllPostsById(105)).thenReturn(postListUser105);
-        when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(productId204);
-        when(productRepository.findByIdOrCreate(productPostRequestDTOId205)).thenReturn(productId205);
-        when(categoryRepository.findByIdOrCreate(categoryPostRequestDTOId3)).thenReturn(categoryId3);
+        when(productRepository.findByIdOrCreate(productPostRequestDTOId204)).thenReturn(ProductConstants.PRODUCT204);
+        when(productRepository.findByIdOrCreate(productPostRequestDTOId205)).thenReturn(ProductConstants.PRODUCT205);
+        when(categoryRepository.findByIdOrCreate(categoryPostRequestDTOId3)).thenReturn(CategoryConstants.CATEGORY3);
         LastestPostDTO lastestPostDTO = postService.getLastestPost(userId, null);
         //Assert
         assertEquals(expectedDTO, lastestPostDTO, "The latest posts should be ordered by default (DESC)");
@@ -263,19 +206,14 @@ public class PostServiceTest {
         //Act
         //when - then return
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of( User.builder().id(userId).followed(List.of(User.builder().id(104).build())).build()));
-        Mockito.when(postRepository.getAllPostsById(104)).thenReturn(List.of( post1));
-        Mockito.when(categoryRepository.findByIdOrCreate(new CategoryPostRequestDTO(1, "Electronics"))).thenReturn(new Category(1, "Electronics"));
+        Mockito.when(postRepository.getAllPostsById(104)).thenReturn(List.of(PostConstants.POST301));
+        Mockito.when(categoryRepository.findByIdOrCreate(new CategoryPostRequestDTO(1, "Electronics"))).thenReturn(CategoryConstants.CATEGORY1);
         Mockito.when(productRepository.findByIdOrCreate(new ProductPostRequestDTO(201,
                 "Smartphone",
                 "Electronics",
                 "Samsung",
                 "Black",
-                "6.5-inch display, 128GB storage"))).thenReturn(new Product(201,
-                "Smartphone",
-                "Electronics",
-                "Samsung",
-                "Black",
-                "6.5-inch display, 128GB storage"));
+                "6.5-inch display, 128GB storage"))).thenReturn(ProductConstants.PRODUCT201);
 
         LastestPostDTO result = postService.getLastestPost(userId, "date_desc");
 
