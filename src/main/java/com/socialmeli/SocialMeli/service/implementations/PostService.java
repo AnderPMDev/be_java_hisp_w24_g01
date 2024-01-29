@@ -1,6 +1,11 @@
 package com.socialmeli.SocialMeli.service.implementations;
 
-import com.socialmeli.SocialMeli.dto.*;
+import com.socialmeli.SocialMeli.dto.requestDTO.CategoryPostRequestDTO;
+import com.socialmeli.SocialMeli.dto.requestDTO.PostRequestDTO;
+import com.socialmeli.SocialMeli.dto.requestDTO.ProductPostRequestDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.LastestPostDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.PostResponseDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.PostWithIdDTO;
 import com.socialmeli.SocialMeli.entity.Category;
 import com.socialmeli.SocialMeli.entity.Post;
 import com.socialmeli.SocialMeli.entity.Product;
@@ -75,10 +80,11 @@ public class PostService implements IPostService {
         );
     }
     @Override
-    public LastestPostDTO getLastestPost(Integer userId, String order) {
-
+    public LastestPostDTO getLastestPost(Integer userId, String orderRequest) {
+        String order = checkOrder(orderRequest);
         //Se trae al usuario y lo mandamos al repositorio
-        var user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("The user id: " + userId + " not found"));
+        var user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("The user id: " + userId + " not found"));
         var usersFollowed = user.getFollowed();
         if (usersFollowed.isEmpty()) {//Si no sigue a nadie, lanzamos una excepción
             throw new EmptyListException("You are not following any user");

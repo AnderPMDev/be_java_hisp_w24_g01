@@ -1,6 +1,6 @@
-package com.socialmeli.SocialMeli.dto;
+package com.socialmeli.SocialMeli.dto.responseDTO;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.socialmeli.SocialMeli.dto.responseDTO.FollowerDTO;
 
 import java.util.List;
 

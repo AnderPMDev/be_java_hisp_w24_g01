@@ -1,8 +1,8 @@
 package com.socialmeli.SocialMeli.service.interfaces;
 
-import com.socialmeli.SocialMeli.dto.LastestPostDTO;
-import com.socialmeli.SocialMeli.dto.PostRequestDTO;
-import com.socialmeli.SocialMeli.dto.PostResponseDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.LastestPostDTO;
+import com.socialmeli.SocialMeli.dto.requestDTO.PostRequestDTO;
+import com.socialmeli.SocialMeli.dto.responseDTO.PostResponseDTO;
 
 public interface IPostService {
     PostResponseDTO createPost(PostRequestDTO postDTO);
